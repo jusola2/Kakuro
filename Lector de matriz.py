@@ -3,7 +3,7 @@ from time import time
 #Este es para las filas 
 def espaciosFilas(pMatrix):
     start_time = time()
-    #lsita de tuplas (numeroFila,columna donde empieza el espacio ,cantidad de espacios)
+    #lista de tuplas (numeroFila,columna donde empieza el espacio ,cantidad de espacios)
     listaEspaciosHorizontales=[]
     contador=0
     for contador in range( len(pMatrix)):
@@ -33,10 +33,31 @@ def espaciosFilas(pMatrix):
     print("Duro en mili",elapsed_time)
     return listaEspaciosHorizontales
 
-def espaciosverticales(pMatrix):
+def espaciosVerticales(pMatrix):
     start_time = time()
-    #lsita de tuplas (numeroColumna,fila donde empieza el espacio ,cantidad de espacios)
-    listaEspaciosHorizontales=[]
+    #lista de tuplas (numeroColumna,fila donde empieza el espacio ,cantidad de espacios)
+    listaEspaciosVerticales=[]
+    contador=0
+    for contador in range( len(pMatrix)):
+        contadorTemp=0
+        num=0
+        while (contadorTemp<len(pMatrix)):
+            if( pMatrix[contadorTemp][contador]==1):
+                num+=1
+                contadorTemp+=1
+                while(contadorTemp<len(pMatrix) and pMatrix[contadorTemp][contador]==1):
+                    num+=1
+                    contadorTemp+=1
+            else:
+                contadorTemp+=1
+            if(num>1): 
+                print("va por la fila ",contadorTemp," ,de la columna ",contador)
+                print("metio en respuesta")
+                listaEspaciosVerticales.append((contador,num))
+                num=0
+    elapsed_time = time() - start_time
+    print("Duro en mili la funcion 2",elapsed_time)
+    return listaEspaciosVerticales
 
 def menu():
     matrix=[[0,0,0,0],[0,1,1,0],[0,1,1,1],[0,0,1,0]]
@@ -47,13 +68,17 @@ def menu():
         if opcion == 1:
               filas=espaciosFilas(matrix)
               print("resultado= ",filas)
+        elif opcion ==2:
+            columnas=espaciosVerticales(matrix)
+            print("resultado= ",columnas)
+                
         else:
             return 
     else:
         print ("Opcion invalida")
         menu()
     #except:
-        #menu()
+    menu()
     
 
 
