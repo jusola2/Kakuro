@@ -35,7 +35,7 @@ def espaciosFilas(pMatrix):
 
 def espaciosVerticales(pMatrix):
     start_time = time()
-    #lista de tuplas (numeroColumna,fila donde empieza el espacio ,cantidad de espacios)
+    #lista de tuplas (fila donde empieza el espacio, numeroColumna ,cantidad de espacios)
     listaEspaciosVerticales=[]
     contador=0
     for contador in range( len(pMatrix)):
@@ -43,6 +43,7 @@ def espaciosVerticales(pMatrix):
         num=0
         while (contadorTemp<len(pMatrix)):
             if( pMatrix[contadorTemp][contador]==1):
+                empezoEn=contadorTemp
                 num+=1
                 contadorTemp+=1
                 while(contadorTemp<len(pMatrix) and pMatrix[contadorTemp][contador]==1):
@@ -53,15 +54,16 @@ def espaciosVerticales(pMatrix):
             if(num>1): 
                 print("va por la fila ",contadorTemp," ,de la columna ",contador)
                 print("metio en respuesta")
-                listaEspaciosVerticales.append((contador,num))
+                listaEspaciosVerticales.append((empezoEn,contador,num))
                 num=0
     elapsed_time = time() - start_time
     print("Duro en mili la funcion 2",elapsed_time)
     return listaEspaciosVerticales
 
 def menu():
-    matrix=[[0,0,0,0],[0,1,1,0],[0,1,1,1],[0,0,1,0]]
-    print (matrix)
+    matrix=[[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,0,0],[0,1,1,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0],[1,1,1,0,0,0,0,0,1,0],[1,1,1,0,0,0,0,0,1,1],[1,1,1,0,0,0,0,0,1,0],[1,1,1,0,0,0,0,0,1,0]]
+    for a in matrix:
+        print (a)
     #try:
     opcion = int (input ("Escoja una opcion: "))
     if opcion >=1 and opcion <=11:  #ojo
