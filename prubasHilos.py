@@ -1,14 +1,20 @@
-
 import threading
 import logging
 import time
 logging.basicConfig( level=logging.DEBUG,
     format='[%(levelname)s] - %(threadName)-10s : %(message)s')
-def worker():
-    logging.debug('Lanzado')
+
+
+def daemon():
     time.sleep(2)
-    logging.debug('Deteniendo')
+    a=2^10
+    print (a)
+    #logging.debug('Deteniendo')
 
 
-w = threading.Thread(target=worker, name='Worker')
-w.start()
+    
+d = threading.Thread(target=daemon, name='Daemon')
+d.setDaemon(True)
+d.run()
+print(d.getName())
+
