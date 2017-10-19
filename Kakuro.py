@@ -6,22 +6,121 @@
 
 from random import randint, choices
 from time import time
+import pygame
+import easygui
 
+#variables
+tamanios = [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+seleccion = 0
 tablero = []
 vector = []
 consecutivosFilas = []
 consecutivosColumnas = []
 espacios = []
+sumas = []
+
+#inicializar componentes
+pygame.init()
+pygame.font.init()
+comic = pygame.font.SysFont('comicsansms', 12)
+numbers = pygame.font.SysFont('comicsansms', 10)
+
+#Colores
+BLACK=(0,0,0)
+WHITE=(255,255,255)
+
+def mainWindow():
+    global seleccion
+    screen = pygame.display.set_mode((800, 800))
+    pygame.display.set_caption('Kakuro')
+    clock = pygame.time.Clock()
+    #Imagen de fondo
+    bg = pygame.image.load('background.jpg')
+    screen.blit(bg, (0,0))
+    title = pygame.image.load('title.png')
+    screen.blit(title, (280,20))
+    #Texto bajo el titulo
+##    texto = comic.render('Elija el tamaño del tablero', True, BLACK)
+##    screen.blit(texto, (215,88))
+    n=int(easygui.choicebox(title='Kakuro',
+                            msg='Elija el tamaño del kakuro',
+                            choices=tamanios))
+    kakuro(n)
+    dibujarTablero(screen, n)
+    #Para cerrar la ventana
+    cerrar = False
+    while not cerrar:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                cerrar = True
+        pygame.display.update()
+        clock.tick(60)
+    pygame.quit()
+    #quit()
+
+def dibujarTablero(screen, n):
+    global tablero
+    global sumas
+    MARGIN = 2
+    WIDTH = 35
+    HEIGHT = 25
+    pygame.draw.rect(screen,
+                      BLACK,
+                      [(400-((MARGIN + WIDTH)*n)//2)-MARGIN,
+                      100,
+                      ((MARGIN + WIDTH)*n)+MARGIN,
+                      ((MARGIN + HEIGHT)*n)+MARGIN])
+    for row in range(n):
+        for column in range(n):
+            color = BLACK
+            if tablero[row][column]!=0:
+                color = WHITE
+            pygame.draw.rect(screen,
+                             color,
+                             [(MARGIN + WIDTH) * column + 400-((MARGIN + WIDTH)*n)//2,
+                              (MARGIN + HEIGHT) * row + MARGIN + 100,
+                              WIDTH,
+                              HEIGHT])
+
+    for i in range(len(sumas)):
+        if sumas[i][4]==1:
+            x=(MARGIN + WIDTH) * (sumas[i][1]-1) + 400-((MARGIN + WIDTH)*n)//2
+            y=(MARGIN + HEIGHT) * sumas[i][0] + MARGIN + 100
+            pygame.draw.line(screen, WHITE, (x, y), (x+WIDTH, y+HEIGHT), MARGIN)
+            texto = numbers.render(str(sumas[i][3]), True, WHITE)
+            x+=WIDTH-10
+            screen.blit(texto, (x,y))
+        else:
+            x=(MARGIN + WIDTH) * sumas[i][1] + 400-((MARGIN + WIDTH)*n)//2
+            y=(MARGIN + HEIGHT) * (sumas[i][0]-1) + MARGIN + 100
+            pygame.draw.line(screen, WHITE, (x, y), (x+WIDTH, y+HEIGHT), MARGIN)
+            texto = numbers.render(str(sumas[i][3]), True, WHITE)
+            y+=HEIGHT-10
+            screen.blit(texto, (x,y))
+            
+    escribirSolucion(screen, tablero, MARGIN, WIDTH, HEIGHT, n)
+
+def escribirSolucion(screen, matriz, MARGIN, WIDTH, HEIGHT, n):
+    for i in range(1,len(matriz)):
+        for j in range(1,len(matriz)):
+            if matriz[i][j]!=0:
+                x=(MARGIN + WIDTH) * j + 400-((MARGIN + WIDTH)*n)//2
+                x+=10
+                y=(MARGIN + HEIGHT) * i + MARGIN + 100
+                y+=2
+                texto = comic.render(str(matriz[i][j]), True, BLACK)
+                screen.blit(texto, (x,y))
+    
 
 def kakuro(n):
     global tablero
     global espacios
+    global sumas
     crearMatriz(n)
     valido = False
     while not valido:
         valido = validarEspacios(n)
     valores = None
-    espacios=tablero
     reintentar=10
     while valores == None:
         valores = generarValores()
@@ -29,18 +128,15 @@ def kakuro(n):
         if reintentar==0:
             kakuro(n)
             return
+    sumas = calcularSumas(tablero)
+##    tablero = reiniciarCeldas(tablero)
     printMatriz(tablero)
 
 def crearMatriz(n):
     global tablero
-    global vector
-    global consecutivosFilas
-    global consecutivosColumnas
     global espacios
     tablero = []
     vector = []
-    consecutivosFilas = []
-    consecutivosColumnas = []
     espacios = []
     for i in range(0, n):
         vector = []
@@ -50,13 +146,10 @@ def crearMatriz(n):
             else:
                 vector.append(choices([0, 1],[0.05, 0.2])[0])
         tablero.append(vector)
-##    while generarValores() == None:
-##        crearMatriz(n)
-##        return
 
 def printMatriz(matriz):
     for n in range(0, len(matriz)):
-        print(tablero[n])
+        print(matriz[n])
 
 def validarEspacios(n):
     global consecutivosFilas
@@ -161,8 +254,6 @@ def espaciosColumnas(pMatrix):
 
 def generarValores():
     global tablero
-    global espacios
-    tablero=espacios
     tamano = len(tablero)
     for i in range(tamano):
         for j in range(tamano):
@@ -177,14 +268,49 @@ def generarValores():
                 tablero[i][j] = n
     return tablero
 
-##kakuro(10)
-##kakuro(11)
-##kakuro(12)
-##kakuro(13)
-##kakuro(14)
-##kakuro(15)
-##kakuro(16)
-##kakuro(17)
-##kakuro(18)
-##kakuro(19)
-##kakuro(20)
+# Calcula las sumas de las celdas del tablero
+def calcularSumas(matriz):
+    global consecutivosFilas
+    global consecutivosColumnas
+    values=[]
+    #Revisa los espacios horizontales
+    for i in range(len(consecutivosFilas)):
+        vector = consecutivosFilas[i]
+        if vector[2]>1:
+            n = getSumaHorizontal(vector, matriz)
+            vector.append(n)
+            vector.append(1)
+            values.append(vector)
+    #Revisa los espacios verticales
+    for i in range(len(consecutivosColumnas)):
+        vector = consecutivosColumnas[i]
+        if vector[2]>1:
+            n = getSumaVertical(vector, matriz)
+            vector.append(n)
+            vector.append(2)
+            values.append(vector)
+    values.sort()
+    return values
+
+# Obtiene la suma del vector desde un punto dado horizontalmente
+def getSumaHorizontal(coord, matriz):
+    vector=[]
+    for j in range(coord[1], coord[1]+coord[2]):
+        vector.append(matriz[coord[0]][j])
+    return sum(vector)
+
+# Obtiene la suma del vector desde un punto dado verticalmente
+def getSumaVertical(coord, matriz):
+    vector=[]
+    for i in range(coord[0], coord[0]+coord[2]):
+        vector.append(matriz[i][coord[1]])
+    return sum(vector)                        
+
+def reiniciarCeldas(matriz):
+    for i in range(len(matriz)):
+        for j in range(len(matriz)):
+            if matriz[i][j]!=0:
+                matriz[i][j]=1
+    return matriz
+
+mainWindow()
