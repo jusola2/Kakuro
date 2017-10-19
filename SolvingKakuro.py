@@ -2,6 +2,8 @@ import threading
 import logging
 import time
 from time import time
+from random import shuffle
+import random
 #el original esta en immagen en la fuente de los archivos 
 #kakuro de prueba kaku=[[0,0,0,0,0,0,0],
 #                       [0,0,1,1,0,0,0],
@@ -14,6 +16,8 @@ from time import time
 filas=[(1, 2, 2,16,1), (2, 2, 4,23,1), (3, 1, 2,16,1), (3, 4, 2,14,1), (4, 1, 4,29,1), (5, 3, 2,17,1)]
 columnas=[(3, 1, 2,16,2), (1, 2, 4,27,2), (1, 3, 2,17,2), (4, 3, 2,16,2), (2, 4, 4,26,2), (2, 5, 2,13,2)]
 
+listaDeCampos=[(1, 2, 2,16,1),(3, 1, 2,16,2),(2, 2, 4,23,1),(1, 2, 4,27,2),(3, 1, 2,16,1),(1, 3, 2,17,2)
+                ,(3, 4, 2,14,1),(4, 3, 2,16,2),(4, 1, 4,29,1),(2, 4, 4,26,2),(5, 3, 2,17,1),(2, 5, 2,13,2)]
 def getPossibleNumbers(goalValue, emptyCells):
     #Me va a retornar una lista con las posibles combinaciones de numeros. Se deberá después permutar
     #Hay 3-45 posibilidades en el goal value
@@ -73,15 +77,15 @@ result =[["|","|","|","|","|","|","|"],
         ["|","|","|","|","|","|","|"],
         ["|","|","|","|","|","|","|"],
         ["|","|","|","|","|","|","|"]]
-'''
-result =[["|","|","|","|","|","|","|"],
+
+'''result =[["|","|","|","|","|","|","|"],
         ["|","|","|",7,"|","|","|"],
         [4,3,2,8,9,1,"|"],
+        ["|","|","|",3,"|","|","|"],
         ["|","|","|","|","|","|","|"],
         ["|","|","|","|","|","|","|"],
-        ["|","|","|","|","|","|","|"],
-        ["|","|","|","|","|","|","|"]]
-'''
+        ["|","|","|","|","|","|","|"]]'''
+
 logging.basicConfig( level=logging.DEBUG,format='[%(levelname)s] - %(threadName)-10s : %(message)s')
 ingresarResult_lock = threading.Lock()
 quitarGastados=threading.Lock()
@@ -129,19 +133,23 @@ def daemon(tupla,tipo):
 
 
 #def daemon():
-def verificar(fila,columna,pmatriz):
+def verificar(fila,columna,largo,pmatriz):
     #verifica que no se repitan numero en fila y columna
     gastadoH=[1,2,3,4,5,6,7,8,9]
     gastadoV=[1,2,3,4,5,6,7,8,9]
     for x in range(len(pmatriz)):
-        if((pmatriz[fila][x] in gastadoH) or pmatriz[fila][x]=="|"):
+        if(((pmatriz[fila][x] in gastadoH) or pmatriz[fila][x]=="|")):
             if (pmatriz[fila][x]!="|"):
                 gastadoH.remove(pmatriz[fila][x])
+            else:
+                continue
         else:
             return False
-        if((pmatriz[x][columna] in gastadoV) or pmatriz[x][columna]=="|"):
+        if(((pmatriz[x][columna] in gastadoV) or pmatriz[x][columna]=="|")):
             if(pmatriz[x][columna]!="|"):
                 gastadoV.remove(pmatriz[x][columna])
+            else:
+                continue
         else:
             return False
     return True
@@ -150,28 +158,156 @@ def sacarToquesHorizontales(fila,columna,largo,matriz):
     toques=[]
     for x in range(largo):
         if((matriz[fila][columna+x]!="|") and x<9):
-            toques.append((columna+x),numero)
+            toques.append(((columna+x),matriz[fila][columna+x]))
         else:
             continue
     return toques
-    
+
+def sacarToquesVerticales(fila,columna,largo,matriz):
+    toques=[]
+    for x in range(largo):
+        if((matriz[fila+x][columna]!="|") and x<9):
+            toques.append(((fila+x),matriz[fila+x][columna]))
+        else:
+            continue
+    return toques
+
+def escojerMejorPosibilidad(pPosibilidades,listaToques):
+    seraPos=True
+    for posibilidad in pPosibilidades:
+        seraPos=True
+        for toques in range(len(listaToques)):
+            if(listaToques[toques][1] in posibilidad):
+                continue
+            else:
+                seraPos=False
+        if(seraPos):
+            return posibilidad
+            
+    return
+
+def eliminarPresentes(posibilidades,aEliminar):
+    for x in range(len(aEliminar)):
+        if(aEliminar[x][1] in posibilidades):
+            posibilidades.remove(aEliminar[x][1])
+    return posibilidades 
+def limpiarLoQueHizo(tupla,pMatrix,posibilidades):
+    if (tupla[4]==1):
+        for x in range(tupla[2]):
+            if(pMatrix[tupla[0]][tupla[1]+x] in posibilidades):
+                pMatrix[tupla[0]][tupla[1]+x]="|"
+            else:
+                continue
+        return pMatrix
+    else:
+        for x in range(tupla[2]):
+            if(pMatrix[tupla[0]+x][tupla[1]] in posibilidades):
+                pMatrix[tupla[0]+x][tupla[1]]="|"
+            else:
+                continue
+        return pMatrix
+        
+            
 def meterEnMatriz(pmatrix,tupla,posibilidades):
-    if(tuplaActual[4]==1):#para las horizontales
-        listaToques=sacarToquesHorizontales(tupla[0],tupla[1],tupla[2],pmatrix)
+    if(tupla[4]==1):#para las horizontales
+        listaToques=sacarToquesHorizontales(tupla[0],tupla[1],tupla[2],pmatrix)#para ver si pega en algun lado con una vertical
+        posibilidadMasFactible=escojerMejorPosibilidad(posibilidades,listaToques)
+        posibilidadMasFactible=eliminarPresentes(posibilidadMasFactible,listaToques)
+        contador=0
+        random.shuffle(posibilidadMasFactible)
+        metidos=0
+        intentos=0
+        while ((metidos!=len(posibilidadMasFactible))and intentos<15):
+            if(pmatrix[tupla[0]][tupla[1]+contador]=="|"):
+                pmatrix[tupla[0]][tupla[1]+contador]=posibilidadMasFactible[0]
+                if (verificar(tupla[0],tupla[1]+contador,tupla[2],pmatrix)):
+                    print("dio true")
+                    metidos+=1
+                    contador+=1
+                else:
+                    print("va a hacer cambio porque no es valido el num",posibilidadMasFactible[0]," en la posicion ",tupla[0]," ",tupla[1]+contador )
+                    pmatrix[tupla[0]][tupla[1]+contador]="|"
+                    random.shuffle(posibilidadMasFactible)
+                    intentos+=1
+                    
+            else:
+                contador+=1
+        if(intentos>=15):
+            pmatrix=limpiarLoQueHizo(tupla,pmatrix,posibilidadMasFactible)
+            return (False,pmatrix)
+        else:
+            return (True,pmatrix)
+    else:
+        listaToques=sacarToquesVerticales(tupla[0],tupla[1],tupla[2],pmatrix)
+        posibilidadMasFactible=escojerMejorPosibilidad(posibilidades,listaToques)
+        posibilidadMasFactible=eliminarPresentes(posibilidadMasFactible,listaToques)
+        contador=0
+        random.shuffle(posibilidadMasFactible)
+        metidos=0
+        intentos=0
+        while ((metidos!=len(posibilidadMasFactible))and intentos<15):
+            if(pmatrix[tupla[0]+contador][tupla[1]]=="|"):
+                pmatrix[tupla[0]+contador][tupla[1]]=posibilidadMasFactible[0]
+                #print(pmatrix[tupla[0]][tupla[1]+contador])
+                if (verificar(tupla[0]+contador,tupla[1],tupla[2],pmatrix)):
+                    print("dio true")
+                    metidos+=1
+                    contador+=1
+                else:
+                    print("va a hacer cambio porque no es valido el num",posibilidadMasFactible[0]," en la posicion ",tupla[0]," ",tupla[1]+contador )
+                    pmatrix[tupla[0]+contador][tupla[1]]="|"
+                    random.shuffle(posibilidadMasFactible)
+                    intentos+=1
+                    
+            else:
+                contador+=1
+        if(intentos>=15):
+            pmatrix=limpiarLoQueHizo(tupla,pmatrix,posibilidadMasFactible)
+            return (False,pmatrix)
+        else:
+            return (True,pmatrix)
+
+
+
         
-        
-        
-def backtrack(matrizSolu,tuplaActual,listaDeTuplas,matrizDePosiblesSolu):
+def backtrack(matrizSolu,tuplaActual,listaDeTuplas,intentos):
+    print(intentos)
     if (listaDeTuplas==[]):
         return matrizSolu
-    elif (tuplaActual[4]==1):
+    else:
+        resultado=meterEnMatriz(matrizSolu,tuplaActual,getPossibleNumbers(tuplaActual[3],tuplaActual[2]))
+        if (resultado[0] and (intentos < 3)):
+            backtrack(resultado[1],listaDeTuplas.pop(),listaDeTuplas,0)
+        else:
+            intentos+=1
+            backtrack(resultado[1],tuplaActual,listaDeTuplas,intentos)
+
+    '''
+    tupla=tuplaActual
+    lista=listaDeTuplas
+    print(tupla)
+    while(listaDeTuplas!=[]):
+        print(tupla)
+        resultado=meterEnMatriz(matrizSolu,tupla,getPossibleNumbers(tuplaActual[3],tuplaActual[2]))
+        if (resultado[0]):
+            #print("dio true ")
+            tupla=lista.pop()
+        else:
+            print("repitio")
+            continue
+            
+    return matrizSolu'''
         
-    
-    
+#prueba=meterEnMatriz(result,(1,1,3,18,2),[[1, 8, 9], [2, 7, 9], [3, 6, 9], [4, 5, 9], [3, 7, 8], [4, 6, 8], [5, 6, 7]])
+prueba=backtrack(result,listaDeCampos[0],listaDeCampos,0)
+for x in prueba:
+    print(x)
+
+
+
 
     
 def solving(listaHor,listaVer):
-    
     for x in range(len(listaHor)+len(listaVer)):
         #print (x)
         if (x<len(listaHor)):
@@ -190,8 +326,8 @@ def swap(a, i, j):
 
 def permute(a, i, n):
     if i == n:
-        print(a)
-        return
+        print (a)
+        return a
     for j in range(i, n+1):
         swap(a, i, j)
         permute(a, i+1, n)
@@ -205,5 +341,7 @@ def main():
     print("Duro en mili",elapsed_time)
 
 #main()
-backtrack()
+#backtrack()
 #solving(filas,columnas)
+#print(sacarToquesVerticales(1,3,5,result))
+#print(permute([1,2,3,4,5,6], 2, 5))
