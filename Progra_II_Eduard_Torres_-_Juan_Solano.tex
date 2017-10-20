@@ -14,7 +14,7 @@
 \thanks{}}
 \maketitle
 \begin{abstract}
-The project is about solving Kakuro's puzzles using backtracking, threads and forks. First we start discussing and analyzing the different sections of the backtracking and the backtracking itself. Then we explore the possibility to implement threads and then after implementing them we compare the results to see if the thread implementation is better than the normal one using as reference two experiments. Then we discuss the posibility of doing it with forks.
+This document discusses the study of the order of functions of pruning, backtracking and the functions in charge of permuting a list. It begins with the study of the large backtracking O and backtracking itself, then follows the study of the or the functions in charge of pruning and then the function in charge of performing permutations.
 
 \end{abstract}
 \begin{IEEEkeywords}
@@ -44,6 +44,16 @@ Los problemas matemáticos que representan estos enigmas pueden resolverse utili
 \end{figure}
 
 \section{Análisis}
+\subsection{Permutaciones}
+En la figura 4, se muestra la funci\'{o}n utilizada para calcular las permutaciones de una lista de tama\~{n}o $n$,  al estudiar la funci\'{o}n y las caracteristicas del mismo, se llega a la comclusion de que posee un orden de $\mathcal{O}(n!)$, ya que en la definici\'{o}n fundamental de una permutaci\'{o}n es la igual al orden del factorial de n o $!n$, este representa el número de formas distintas de ordenar $n$ objetos de manera diferente(sin repetir ordenes).El contenido de la lista se vuelve indiferente ya que, no importa el valor de los mismo a la hora de correr el algoritmo, pero si afecta el numero de los mismo.
+\begin{figure}[hb] 
+	\centering \includegraphics[width=0.9\columnwidth]{permutacion.png}
+	\caption{
+		\label{fig:samplesetup}
+		Función de permutaciones 
+	}
+\end{figure} 
+\subsection{Poda}
 \subsection{Generar un tablero}
 
 
