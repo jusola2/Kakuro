@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.9)  19 OCT 2017 19:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.9)  19 OCT 2017 20:24
 entering extended mode
 **./Progra_II_Eduard_Torres_-_Juan_Solano.tex
 (Progra_II_Eduard_Torres_-_Juan_Solano.tex
@@ -584,20 +584,13 @@ File: backtrack_parte2.png Graphic file (type png)
 <use backtrack_parte2.png>
 Package pdftex.def Info: backtrack_parte2.png used on input line 71.
 (pdftex.def)             Requested size: 252.0pt x 188.895pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
+ [1{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}
 
 
  <./kakuro_blank.png> <./kakuro_solved.png> <./permutacion.png>] [2
 
- <./backtrack_parte1.png> <./backtrack_parte2.png>] (Progra_II_Eduard_Torres_-_
-Juan_Solano.aux)
+ <./backtrack_parte1.png> <./backtrack_parte2.png>]
+(Progra_II_Eduard_Torres_-_Juan_Solano.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
@@ -605,23 +598,22 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  2635 strings out of 493323
  40990 string characters out of 3139067
- 108337 words of memory out of 3000000
+ 109337 words of memory out of 3000000
  6159 multiletter control sequences out of 15000+200000
  34085 words of font info for 63 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
- 39i,6n,25p,676b,212s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 39i,6n,25p,791b,212s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/Mi
 KTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/ty
-pe1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb
-8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Progr
-am Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2
-.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Progra_II_Eduard_Torres_-_Juan_Solano.pdf (2 pages, 193330 by
+pe1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
+times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb
+><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program File
+s/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Progra_II_Eduard_Torres_-_Juan_Solano.pdf (2 pages, 187625 by
 tes).
 PDF statistics:
- 53 PDF objects out of 1000 (max. 8388607)
+ 49 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
