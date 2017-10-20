@@ -276,7 +276,7 @@ def backtrack(matrizSolu,tuplaActual,listaDeTuplas,intentos):
         return matrizSolu
     else:
         resultado=meterEnMatriz(matrizSolu,tuplaActual,obtenerPosibilidades(tuplaActual[3],tuplaActual[2]))
-        if (resultado[0] and (intentos < 3)):
+        if (resultado[0] and (intentos < 11)):
             backtrack(resultado[1],listaDeTuplas.pop(),listaDeTuplas,0)
         else:
             intentos+=1
