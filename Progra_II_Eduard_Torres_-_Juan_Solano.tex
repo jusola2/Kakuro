@@ -57,7 +57,23 @@ En la figura 3
 \subsection{Poda}
 \subsection{Backtracking}
 Al momento de analizar las funcio\'{o}nes encargadas del backtraking, se debe de tomar en cuenta que el orden puede ser afectado por otras funci\'{o}nes, como por ejemplo las encargadas de la poda, sin embargo, al ser estudiadas en otra secci\'{o}n, no se contemplara el efecto que tengan en el orden del backtracking.\\
-
+El kakuro tiene la particularidad de solo tener, por numero, 9 casillas vaci\'{a}s, por lo que el rango maximo de interaciones por numero a calcular es de 9.\ La funci\'{o}n backtrack, figura 4, busca la solucion con un maximo de 11 veces por el parametro "intentos" (maximo de veces que un mismo numero aparece en una lista de los posibles conjuntos) si no es que no ha encontrado una soluci\'{o}n, al analizarla obtenemos un orden $O(n^(11))$ pero a su vez, backtrack llama a la funci\'{o}n meterEnMatriz, figura 5, por lo que es necesario el estudio de la funci\'{o}n meterEnMatriz.
+\\
+La funci\'{o}n meterEnMatriz entra en un while que puede tener dos duraciones, en el mejor caso una duraci\'{o}n de 9 (en el caso de ser una serie de 9 espacios en blanco sin ninguna intersecci\'{o}n) o de 15 como maximo de interaciones antes de que se requiera otro grupo de soluci\'{o}n (el cual se encarga la funci\'{o}n backtrack), por lo que el orden de la funci\'{o}n esta dada por $O(15)$ al ser 15 el maximo entre (9,15).\\ 
+\begin{figure}[h] 
+	\centering \includegraphics[width=1\columnwidth]{backtrack_parte1.png}
+	\caption{
+		\label{fig:samplesetup}
+		Función de Backtrack
+	}
+\end{figure}
+\begin{figure}[h] 
+	\centering \includegraphics[width=1\columnwidth]{backtrack_parte2.png}
+	\caption{
+		\label{fig:samplesetup}
+		Función de meterEnMatriz
+	}
+\end{figure}
 \subsection{Generar un tablero}
 
 
