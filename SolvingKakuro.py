@@ -17,8 +17,9 @@ filas=[(1, 2, 2,16,1), (2, 2, 4,23,1), (3, 1, 2,16,1), (3, 4, 2,14,1), (4, 1, 4,
 columnas=[(3, 1, 2,16,2), (1, 2, 4,27,2), (1, 3, 2,17,2), (4, 3, 2,16,2), (2, 4, 4,26,2), (2, 5, 2,13,2)]
 
 listaDeCampos=[(1, 2, 2,16,1),(3, 1, 2,16,2),(2, 2, 4,23,1),(1, 2, 4,27,2),(3, 1, 2,16,1),(1, 3, 2,17,2)
+
                 ,(3, 4, 2,14,1),(4, 3, 2,16,2),(4, 1, 4,29,1),(2, 4, 4,26,2),(5, 3, 2,17,1),(2, 5, 2,13,2)]
-def getPossibleNumbers(goalValue, emptyCells):
+def obtenerPosibilidades(goalValue, emptyCells):
     #Me va a retornar una lista con las posibles combinaciones de numeros. Se deberá después permutar
     #Hay 3-45 posibilidades en el goal value
     #Hay 2-9 posibilidades de celdas
@@ -94,7 +95,7 @@ gastados=[[1,2,3,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9],[1,2,3,4,5,6,7,8,9],[1,2,3,4,5
 def daemon(tupla,tipo):
     #si es tipo 1 es hor, tipo es ver
     #print (getPossibleNumbers(tupla[3],tupla[2]))
-    posibilidades=getPossibleNumbers(tupla[3],tupla[2])
+    posibilidades=obtenerPosibilidades(tupla[3],tupla[2])
     if (tipo==1):
         with ingresarResult_lock:
             const=0
@@ -271,32 +272,16 @@ def meterEnMatriz(pmatrix,tupla,posibilidades):
 
         
 def backtrack(matrizSolu,tuplaActual,listaDeTuplas,intentos):
-    print(intentos)
     if (listaDeTuplas==[]):
         return matrizSolu
     else:
-        resultado=meterEnMatriz(matrizSolu,tuplaActual,getPossibleNumbers(tuplaActual[3],tuplaActual[2]))
+        resultado=meterEnMatriz(matrizSolu,tuplaActual,obtenerPosibilidades(tuplaActual[3],tuplaActual[2]))
         if (resultado[0] and (intentos < 3)):
             backtrack(resultado[1],listaDeTuplas.pop(),listaDeTuplas,0)
         else:
             intentos+=1
             backtrack(resultado[1],tuplaActual,listaDeTuplas,intentos)
 
-    '''
-    tupla=tuplaActual
-    lista=listaDeTuplas
-    print(tupla)
-    while(listaDeTuplas!=[]):
-        print(tupla)
-        resultado=meterEnMatriz(matrizSolu,tupla,getPossibleNumbers(tuplaActual[3],tuplaActual[2]))
-        if (resultado[0]):
-            #print("dio true ")
-            tupla=lista.pop()
-        else:
-            print("repitio")
-            continue
-            
-    return matrizSolu'''
         
 #prueba=meterEnMatriz(result,(1,1,3,18,2),[[1, 8, 9], [2, 7, 9], [3, 6, 9], [4, 5, 9], [3, 7, 8], [4, 6, 8], [5, 6, 7]])
 prueba=backtrack(result,listaDeCampos[0],listaDeCampos,0)
