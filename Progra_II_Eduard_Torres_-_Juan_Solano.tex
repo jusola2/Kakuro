@@ -94,7 +94,14 @@ La funci\'{o}n meterEnMatriz entra en un while que puede tener dos duraciones, e
 		Función de meterEnMatriz
 	}
 \end{figure}
-\subsection{Generar un tablero}
-
-
+\section{Experimentos	y	discusión}
+\subsection{Hilos}
+La utilizaci\'{o}n de los hilos en la busqueda de la soluci\'{o}n de un kakuro en la teor\'{\i}a, parece fiable, pero a la hora de aplicarlos en la soluci\'{o}n crea problemas en la soluci\'{o}n, usualmente crea resultados invalidos en el kakuro, como lo son numeros repetidos en filas y columnas, o bien , sumas que dan respuesta correcta en una direcci\'{o}n pero no es su opuesta inmediata.En la figura 7 se muestra el codigo utilizado en la aplicaci\'{o}n de los hilos(deamon).\ El poder paralelizar el calculo de las posibilidades de cada grupo de casillas aumenta el tiempo de calculo, pero al multiples estar trabajando sobre una misma matriz, provoca las inconsistencias anteriormente mencionadas.
+\begin{figure}[h] 
+	\centering \includegraphics[width=1\columnwidth]{hilos.png}
+	\caption{
+		\label{fig:samplesetup}
+		Función de deamon (Hilos)
+	}
+\end{figure}
 \end{document}

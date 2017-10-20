@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.9)  19 OCT 2017 20:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.8.9)  19 OCT 2017 21:26
 entering extended mode
 **./Progra_II_Eduard_Torres_-_Juan_Solano.tex
 (Progra_II_Eduard_Torres_-_Juan_Solano.tex
@@ -477,6 +477,9 @@ LaTeX Warning: Label `fig:samplesetup' multiply defined.
 
 LaTeX Warning: Label `fig:samplesetup' multiply defined.
 
+
+LaTeX Warning: Label `fig:samplesetup' multiply defined.
+
 )
 \openout1 = `Progra_II_Eduard_Torres_-_Juan_Solano.aux'.
 
@@ -614,17 +617,22 @@ Package pdftex.def Info: backtrack_parte2.png used on input line 91.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[2 <./backtrack_parte1.png> <./backtrack_parte2.png>]
+<hilos.png, id=23, 1375.38844pt x 526.96875pt>
+File: hilos.png Graphic file (type png)
+ <use hilos.png>
+Package pdftex.def Info: hilos.png used on input line 101.
+(pdftex.def)             Requested size: 252.0pt x 96.5469pt.
+ [2 <./backtrack_parte1.png> <./backtrack_parte2.png> <./hilos.png>]
 (Progra_II_Eduard_Torres_-_Juan_Solano.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2640 strings out of 493323
- 41129 string characters out of 3139067
- 108337 words of memory out of 3000000
- 6163 multiletter control sequences out of 15000+200000
+ 2645 strings out of 493323
+ 41193 string characters out of 3139067
+ 110337 words of memory out of 3000000
+ 6167 multiletter control sequences out of 15000+200000
  34085 words of font info for 63 fonts, out of 3000000 for 9000
  1144 hyphenation exceptions out of 8191
  39i,6n,25p,791b,212s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -635,10 +643,10 @@ pe1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/
 times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb
 ><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program File
 s/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Progra_II_Eduard_Torres_-_Juan_Solano.pdf (2 pages, 196692 by
+Output written on Progra_II_Eduard_Torres_-_Juan_Solano.pdf (2 pages, 240724 by
 tes).
 PDF statistics:
- 51 PDF objects out of 1000 (max. 8388607)
+ 53 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
 
