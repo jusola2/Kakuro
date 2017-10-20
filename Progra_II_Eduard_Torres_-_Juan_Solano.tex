@@ -54,7 +54,27 @@ En la figura 3
 		Función de permutaciones 
 	}
 \end{figure} 
+
 \subsection{Poda}
+Una de las partes más importantes del algoritmo de backtracking es su poda, pues reduce al mínimo la búsqueda de posibles soluciones al problema, lo que permite que la resolución del problema se realiza con mayor rapidez y eficiencia.\\
+En este caso la poda consiste en una estructura que contiene las posibles soluciones para que los numeros de una cantidad determinada de celdas sumen el valor de la clave determinada.
+
+\begin{figure}[h] 
+        \centering \includegraphics[width=.9\columnwidth]{obtenerPosibilidades.png}
+        \caption{
+                \label{fig:samplesetup}
+                Parte de la función de poda
+        }
+\end{figure}
+
+En la figura 4 se puede ver que la cantidad de combinaciones crece conforme el valor de la clave se incrementa, no obstante, cuando la clave se enctuentre entre 21 y 24 alcanza el valor máximo de posibles combinaciones, con diferentes valores de casillas consecutivas, las cuales varían en 23 posibles combinaciones. El límite que llega a alcanzar el valor de la clave es de 45, el cual posee una única combinación posible, que es la sumatoria del 1 al 9.\\
+De lo anterior se puede decir que $O(obtenerPosibilidades(clave, celdas))$ se encuentra cuando el valor de la clave es 45 ó cuando el valor de la clave es 24 y la cantidad de celdas es el máximo para generar la suma de la clave, las cuales serían 6 celdas consecutivas. Entonces:
+
+\[O(obtenerPosibilidades(45, 9))=46\]
+\[O(obtenerPosibilidades(24, 6))=47\]
+
+Por lo tanto $O(obtenerPosibilidades)=47$
+
 \subsection{Backtracking}
 Al momento de analizar las funcio\'{o}nes encargadas del backtraking, se debe de tomar en cuenta que el orden puede ser afectado por otras funci\'{o}nes, como por ejemplo las encargadas de la poda, sin embargo, al ser estudiadas en otra secci\'{o}n, no se contemplara el efecto que tengan en el orden del backtracking.\\
 El kakuro tiene la particularidad de solo tener, por numero, 9 casillas vaci\'{a}s, por lo que el rango maximo de interaciones por numero a calcular es de 9.\ La funci\'{o}n backtrack, figura 4, busca la solucion con un maximo de 11 veces por el parametro "intentos" (maximo de veces que un mismo numero aparece en una lista de los posibles conjuntos) si no es que no ha encontrado una soluci\'{o}n, al analizarla obtenemos un orden $O((n*{11}*k))$ donde $k$ es la cantidad de veces que la recursividad necesiat evaluar por casilla, que a su vez se puede reducir a  $O((n*k))$ ,se tiene que tener en cuenta que backtrack llama a la funci\'{o}n meterEnMatriz, figura 5, por lo que es necesario el estudio de la funci\'{o}n meterEnMatriz.
