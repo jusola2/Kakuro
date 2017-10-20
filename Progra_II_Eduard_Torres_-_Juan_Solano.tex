@@ -1,6 +1,7 @@
 \documentclass[journal]{IEEEtran}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{float}
 \ifCLASSINFOpdf
 \else
 \fi
@@ -76,24 +77,25 @@ De lo anterior se puede decir que $O(obtenerPosibilidades(clave, celdas))$ se en
 Por lo tanto $O(obtenerPosibilidades)=47$
 
 \subsection{Backtracking}
-Al momento de analizar las funci\'{o}nes encargadas del backtraking, se debe de tomar en cuenta que el orden puede ser afectado por otras funci\'{o}nes, como por ejemplo las encargadas de la poda, sin embargo, al ser estudiadas en otra secci\'{o}n, no se contemplara el efecto que tengan en el orden del backtracking.\\
-El kakuro tiene la particularidad de solo tener, por numero, 9 casillas vaci\'{a}s, por lo que el rango maximo de interaciones por numero a calcular es de 9.\ La funci\'{o}n backtrack, figura 5, busca la solucion con un maximo de 11 veces por el parametro "intentos" (maximo de veces que un mismo numero aparece en una lista de los posibles conjuntos) si no es que no ha encontrado una soluci\'{o}n, al analizarla obtenemos un orden $O((n*{11}*k))$ donde $k$ es la cantidad de veces que la recursividad necesita evaluar por casilla, que a su vez se puede reducir a  $O((n*k))$ ,se tiene que tener en cuenta que backtrack llama a la funci\'{o}n meterEnMatriz, figura 6, por lo que es necesario el estudio de la funci\'{o}n meterEnMatriz.
+Al momento de analizar las funcio\'{o}nes encargadas del backtraking, se debe de tomar en cuenta que el orden puede ser afectado por otras funci\'{o}nes, como por ejemplo las encargadas de la poda, sin embargo, al ser estudiadas en otra secci\'{o}n, no se contemplara el efecto que tengan en el orden del backtracking.\\
+El kakuro tiene la particularidad de solo tener, por numero, 9 casillas vaci\'{a}s, por lo que el rango maximo de interaciones por numero a calcular es de 9.\ La funci\'{o}n backtrack, figura 4, busca la solucion con un maximo de 11 veces por el parametro "intentos" (maximo de veces que un mismo numero aparece en una lista de los posibles conjuntos) si no es que no ha encontrado una soluci\'{o}n, al analizarla obtenemos un orden $O((n*{11}*k))$ donde $k$ es la cantidad de veces que la recursividad necesiat evaluar por casilla, que a su vez se puede reducir a  $O((n*k))$ ,se tiene que tener en cuenta que backtrack llama a la funci\'{o}n meterEnMatriz, figura 5, por lo que es necesario el estudio de la funci\'{o}n meterEnMatriz.
 \\
 La funci\'{o}n meterEnMatriz entra en un while que puede tener dos duraciones, en el mejor caso una duraci\'{o}n de 9 (en el caso de ser una serie de 9 espacios en blanco sin ninguna intersecci\'{o}n) o de 15 como maximo de interaciones antes de que se requiera otro grupo de soluci\'{o}n (el cual se encarga la funci\'{o}n backtrack), por lo que el orden de la funci\'{o}n esta dada por $O(15)$ al ser 15 el maximo entre (9,15).\\ Con lo anterior, podemos deducir que la O grande del backtracking, como un todo, seria de $O(n*k)*O(C)$, con C siendo la constante 15 de la O grande de la funci\'{o}n meterEnMatriz, a lo que termina siendo $O(n*k)$
-\begin{figure}[h] 
+\begin{figure}[H] 
 	\centering \includegraphics[width=1\columnwidth]{backtrack_parte1.png}
 	\caption{
 		\label{fig:samplesetup}
 		Función de Backtrack
 	}
 \end{figure}
-\begin{figure}[h] 
+\begin{figure}[H] 
 	\centering \includegraphics[width=1\columnwidth]{backtrack_parte2.png}
 	\caption{
 		\label{fig:samplesetup}
 		Función de meterEnMatriz
 	}
 \end{figure}
+
 \section{Experimentos	y	discusión}
 \subsection{Hilos}
 La utilizaci\'{o}n de los hilos en la busqueda de la soluci\'{o}n de un kakuro en la teor\'{\i}a, parece fiable, pero a la hora de aplicarlos en la soluci\'{o}n crea problemas en la soluci\'{o}n, usualmente crea resultados invalidos en el kakuro, como lo son numeros repetidos en filas y columnas, o bien , sumas que dan respuesta correcta en una direcci\'{o}n pero no es su opuesta inmediata.En la figura 7 se muestra el codigo utilizado en la aplicaci\'{o}n de los hilos(deamon).\ El poder paralelizar el calculo de las posibilidades de cada grupo de casillas aumenta el tiempo de calculo, pero al multiples estar trabajando sobre una misma matriz, provoca las inconsistencias anteriormente mencionadas.
@@ -104,4 +106,10 @@ La utilizaci\'{o}n de los hilos en la busqueda de la soluci\'{o}n de un kakuro e
 		Función de deamon (Hilos)
 	}
 \end{figure}
+
+\subsection{Forks}
+Los forks son una herramienta que ayuda a mejorar considerablemente el rendimiento del programa. Su funcionamiento consiste en la copia idéntica de un proceso que se está llevando a cabo, el cual será el proceso hijo, incluyendo todas las variables que se declararon antes de la bifurcación del proceso, a excepción de la que guardará el resultado una vez que termine el proceso hijo y su ejecución continua en la línea inmediata después de la duplicación del proceso.\\
+La implementación de este método no pudo ser implementada en este proyecto, sin embargo pudo haber sido de mucha utilidad a la hora de realizar los procesos, mejorando los tiempos de respuestas realizando múltiples tareas a la vez.
+
+
 \end{document}
